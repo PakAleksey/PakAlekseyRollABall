@@ -5,22 +5,22 @@ using Random = UnityEngine.Random;
 
 namespace Assets.MyScripts
 {
-    public sealed class GoodBonus : InteractiveObject, IFly, IFlicker, IEquatable<GoodBonus>
+    public class GoodBonus : InteractiveObject, IFly, IFlicker, IEquatable<GoodBonus>
     {
         public int Point;
 
-        private Material _material;
+        protected Material _material;
         private float _lengthFly;
 
-        private DisplayBonuses _displayBonuses;        
+        protected DisplayBonuses _displayBonuses;        
 
         protected override void Interaction()
         {
-            _displayBonuses.Display(5);
+            _displayBonuses.Display(Point, 0);
             // Add bonus
         }
 
-        private void Awake()
+        private void Start()
         {
             _material = GetComponent<Renderer>().material;
             _lengthFly = Random.Range(1.0f, 5.0f);
