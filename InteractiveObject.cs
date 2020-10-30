@@ -23,7 +23,7 @@ namespace Assets.MyScripts
 
         private void Start()
         {
-            //((IAction)this).Action();
+            ((IAction)this).Action();
             ((IInitialization)this).Action();              
         }
 

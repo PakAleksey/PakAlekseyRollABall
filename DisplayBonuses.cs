@@ -12,13 +12,19 @@ namespace Assets.MyScripts
 
         public DisplayBonuses()
         {
-            _text = Object.FindObjectOfType<Text>();           
+            _text = Object.FindObjectOfType<TextBonus>().GetComponent<Text>();
+            ShowBonuses();
         }
         public void Display(int value, int value2)
         {                       
             _bonus += value;
             _checkBonus += value2;
-            _text.text = $"Бонусы: {_bonus}, Чекпоинты: {_checkBonus}/5";                    
+            ShowBonuses();
+        }
+
+        private void ShowBonuses()
+        {
+            _text.text = $"Бонусы: {_bonus}, Чекпоинты: {_checkBonus}/5";
         }
     }
 }

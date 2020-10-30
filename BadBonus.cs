@@ -5,20 +5,23 @@ using Random = UnityEngine.Random;
 
 namespace Assets.MyScripts
 {
-    public sealed class BadBonus : InteractiveObject, IFly, IRotation, ICloneable
+    public class BadBonus : InteractiveObject, IFly, IRotation, ICloneable
     {
         private float _lengthFlay;
         private float _speedRotation;
+        private int _damage;
 
         private void Awake()
         {
+            _damage = 10;
             _lengthFlay = Random.Range(1.0f, 5.0f);
             _speedRotation = Random.Range(10.0f, 50.0f);
         }
 
         protected override void Interaction(Player player)
         {
-            // Destroy player
+            var playerHealth = player._playerHealth;
+            playerHealth.Hurt(_damage);
         }
 
         public void Fly()

@@ -16,8 +16,7 @@ namespace Assets.MyScripts
 
         protected override void Interaction(Player player)
         {
-            _displayBonuses.Display(Point, 0);
-            // Add bonus
+            _displayBonuses.Display(Point, 0);            
         }
 
         private void Start()
