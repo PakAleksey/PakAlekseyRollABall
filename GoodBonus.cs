@@ -12,9 +12,9 @@ namespace Assets.MyScripts
         protected Material _material;
         private float _lengthFly;
 
-        protected DisplayBonuses _displayBonuses;        
+        protected DisplayBonuses _displayBonuses;  
 
-        protected override void Interaction()
+        protected override void Interaction(Player player)
         {
             _displayBonuses.Display(Point, 0);
             // Add bonus

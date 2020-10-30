@@ -5,7 +5,7 @@ namespace Assets.MyScripts
 {
     public sealed class CheckBonus : GoodBonus
     {
-        protected override void Interaction()
+        protected override void Interaction(Player Player)
         {
             _displayBonuses.Display(0, 1);           
         }

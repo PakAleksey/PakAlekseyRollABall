@@ -11,7 +11,12 @@ namespace Assets.MyScripts
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
-        }       
+        }
+
+        private void FixedUpdate()
+        {
+            Move();
+        }
 
         protected void Move()
         {

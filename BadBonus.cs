@@ -16,7 +16,7 @@ namespace Assets.MyScripts
             _speedRotation = Random.Range(10.0f, 50.0f);
         }
 
-        protected override void Interaction()
+        protected override void Interaction(Player player)
         {
             // Destroy player
         }

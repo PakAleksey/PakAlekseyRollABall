@@ -1,13 +1,15 @@
 ﻿using Random = UnityEngine.Random;
 using UnityEngine;
 using System;
+using System.Collections;
+
 
 namespace Assets.MyScripts
 {
     public abstract class InteractiveObject : MonoBehaviour, IInteractable, IComparable<InteractiveObject>
-    {
+    {       
         public bool IsInteractable { get; } = true;
-        protected abstract void Interaction();
+        protected abstract void Interaction(Player player);
 
         private void OnTriggerEnter(Collider other)
         {
@@ -15,14 +17,19 @@ namespace Assets.MyScripts
             {
                 return;
             }
-            Interaction();
+            Interaction(other.GetComponent<Player>());
             Destroy(gameObject);
         }
 
         private void Start()
         {
             //((IAction)this).Action();
-            ((IInitialization)this).Action();   
+            ((IInitialization)this).Action();              
+        }
+
+        protected static void SpeedBonusPlayer(Player player)
+        {
+            player.Speed = 10.0f;
         }
 
         void IAction.Action()
