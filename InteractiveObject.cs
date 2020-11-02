@@ -20,7 +20,6 @@ namespace Assets.MyScripts
             }
             Interaction(other.GetComponent<Player>());
             Destroy(gameObject);
-            Debug.Log($"{other.name}");
         }
 
         private void Start()

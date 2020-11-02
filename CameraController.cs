@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.MyScripts
@@ -10,7 +11,7 @@ namespace Assets.MyScripts
 
         private void Start()
         {
-            _offset = transform.position - Player.transform.position;
+            _offset = transform.position - Player.transform.position;          
         }
 
         private void LateUpdate()

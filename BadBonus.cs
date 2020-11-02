@@ -25,21 +25,6 @@ namespace Assets.MyScripts
             }
         }
 
-        //public delegate void CaughtPlayerChange(object obj);
-        //private event CaughtPlayerChange _caughtPlayer;
-
-        //public event CaughtPlayerChange CaughtPlayer
-        //{
-        //    add
-        //    {
-        //        _caughtPlayer += value;
-        //    }
-        //    remove
-        //    {
-        //        _caughtPlayer -= value;
-        //    }
-        //}
-
         private void Awake()
         {
             _damage = 10;

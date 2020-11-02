@@ -12,11 +12,26 @@ namespace Assets.MyScripts
         protected Material _material;
         private float _lengthFly;
 
-        protected DisplayBonuses _displayBonuses;  
+        protected DisplayBonuses _displayBonuses;
+
+        private event Action _cameraShake;
+        
+        public event Action CameraShake
+        {
+            add
+            {
+                _cameraShake += value;
+            }
+            remove
+            {
+                _cameraShake -= value;
+            }
+        }
 
         protected override void Interaction(Player player)
         {
-            _displayBonuses.Display(Point, 0);            
+            _displayBonuses.Display(Point, 0);
+            _cameraShake?.Invoke();
         }
 
         private void Start()

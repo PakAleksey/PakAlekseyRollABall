@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 
 namespace Assets.MyScripts
@@ -17,7 +18,22 @@ namespace Assets.MyScripts
 
         public void GameOver(object o, CaughtPlayerEventArgs caughtPlayerEventArgs)
         {
-            _finishGameLabel.text = $"Вы проиграли. Вас убил {((GameObject)o).name} {caughtPlayerEventArgs.Color} цвета";
+            try
+            {
+                _finishGameLabel.text = $"Вы проиграли. Вас убил {((InteractiveObject)o).name} {caughtPlayerEventArgs.Color} цвета";
+            }            
+            catch (InvalidCastException ex)
+            {
+                Debug.Log(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);
+            }
+            finally
+            {
+                Debug.Log(typeof(BadBonus).ToString());
+            }
         }
     }
 }
