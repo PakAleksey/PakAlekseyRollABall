@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Object = UnityEngine.Object;
+
 
 namespace Assets.MyScripts
 {
@@ -12,8 +15,17 @@ namespace Assets.MyScripts
         public ListInteractableObject()
         {
             _interactiveObjects = Object.FindObjectsOfType<InteractiveObject>();
+            Array.Sort(_interactiveObjects);
         }
-     
+
+        public InteractiveObject this[int index]
+        {
+            get => _interactiveObjects[index];
+            set => _interactiveObjects[index] = value;
+        }
+
+        public int Count => _interactiveObjects.Length;
+
         public IEnumerator GetEnumerator()
         {
             return this;

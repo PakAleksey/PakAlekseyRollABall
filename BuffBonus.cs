@@ -8,9 +8,9 @@ namespace Assets.MyScripts
     {
         private float _highSpeed = 10.0f;       
         private float _BaseSpeed = 3.0f;
-        private float _endTimer = 10;
-        private Timer _timer = new Timer();
-        private Player _player = new Player();
+        
+        private Timer _timer;
+        private Player _player;
 
         protected override void Interaction(Player player)
         {
@@ -24,8 +24,6 @@ namespace Assets.MyScripts
         public void EndBuff()
         {
             _player.Speed = _BaseSpeed;
-            _timer.IsStart = false;
-            _timer.TimeStart = 0;
             _timer.StopTimer -= EndBuff;
         }
        

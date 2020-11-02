@@ -23,6 +23,8 @@ namespace Assets.MyScripts
             }
             else
             {
+                IsStart = false;
+                TimeStart = 0;
                 StopTimer.Invoke();
             }
         }

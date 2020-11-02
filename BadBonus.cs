@@ -23,7 +23,7 @@ namespace Assets.MyScripts
 
         protected override void Interaction(Player player)
         {
-            CaughtPlayer();
+            CaughtPlayer?.Invoke();
             var playerHealth = player._playerHealth;
             playerHealth.Hurt(_damage);
         }
