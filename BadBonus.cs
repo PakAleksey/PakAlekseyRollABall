@@ -11,6 +11,9 @@ namespace Assets.MyScripts
         private float _speedRotation;
         private int _damage;
 
+        public delegate void CaughtPlayerChange();
+        public CaughtPlayerChange CaughtPlayer;
+
         private void Awake()
         {
             _damage = 10;
@@ -20,6 +23,7 @@ namespace Assets.MyScripts
 
         protected override void Interaction(Player player)
         {
+            CaughtPlayer();
             var playerHealth = player._playerHealth;
             playerHealth.Hurt(_damage);
         }
