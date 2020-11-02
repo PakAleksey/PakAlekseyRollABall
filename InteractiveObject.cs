@@ -7,7 +7,8 @@ using System.Collections;
 namespace Assets.MyScripts
 {
     public abstract class InteractiveObject : MonoBehaviour, IInteractable, IComparable<InteractiveObject>
-    {       
+    {
+        protected Color _color;
         public bool IsInteractable { get; } = true;
         protected abstract void Interaction(Player player);
 
@@ -25,7 +26,7 @@ namespace Assets.MyScripts
         private void Start()
         {
             ((IAction)this).Action();
-            ((IInitialization)this).Action();              
+            //((IInitialization)this).Action();              
         }
 
         protected static void SpeedBonusPlayer(Player player)
@@ -35,9 +36,10 @@ namespace Assets.MyScripts
 
         void IAction.Action()
         {
+            _color = Random.ColorHSV();
             if (TryGetComponent(out Renderer renderer))
             {
-                renderer.material.color = Random.ColorHSV();
+                renderer.material.color = _color;
             }
         }
 

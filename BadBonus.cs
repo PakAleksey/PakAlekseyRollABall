@@ -11,8 +11,34 @@ namespace Assets.MyScripts
         private float _speedRotation;
         private int _damage;
 
-        public delegate void CaughtPlayerChange();
-        public CaughtPlayerChange CaughtPlayer;
+        private event EventHandler<CaughtPlayerEventArgs> _caughtPlayer;
+        
+        public event EventHandler<CaughtPlayerEventArgs> CaughtPlayer
+        {
+            add
+            {
+                _caughtPlayer += value;
+            }
+            remove
+            {
+                _caughtPlayer -= value;
+            }
+        }
+
+        //public delegate void CaughtPlayerChange(object obj);
+        //private event CaughtPlayerChange _caughtPlayer;
+
+        //public event CaughtPlayerChange CaughtPlayer
+        //{
+        //    add
+        //    {
+        //        _caughtPlayer += value;
+        //    }
+        //    remove
+        //    {
+        //        _caughtPlayer -= value;
+        //    }
+        //}
 
         private void Awake()
         {
@@ -23,7 +49,7 @@ namespace Assets.MyScripts
 
         protected override void Interaction(Player player)
         {
-            CaughtPlayer?.Invoke();
+            _caughtPlayer?.Invoke(this, new CaughtPlayerEventArgs(_color));
             var playerHealth = player._playerHealth;
             playerHealth.Hurt(_damage);
         }

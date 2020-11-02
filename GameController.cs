@@ -27,7 +27,7 @@ namespace Assets.MyScripts
             }
         }
 
-        private void CaughtPlayer()
+        private void CaughtPlayer(object value, CaughtPlayerEventArgs caughtPlayerEventArgs)
         {
             Time.timeScale = 0.0f;
         }
