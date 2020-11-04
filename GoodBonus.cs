@@ -5,40 +5,29 @@ using Random = UnityEngine.Random;
 
 namespace Assets.MyScripts
 {
-    public class GoodBonus : InteractiveObject, IFly, IFlicker, IEquatable<GoodBonus>
+    public class GoodBonus : InteractiveObject, IFly, IFlicker
     {
         public int Point;
-
-        protected Material _material;
+        public event Action<int> OnPointChange = delegate (int i) { };
+        private Material _material;
         private float _lengthFly;
 
-        protected DisplayBonuses _displayBonuses;
-
-        private event Action _cameraShake;
-        
-        public event Action CameraShake
+        protected override void Interaction()
         {
-            add
-            {
-                _cameraShake += value;
-            }
-            remove
-            {
-                _cameraShake -= value;
-            }
+            OnPointChange.Invoke(Point);
         }
 
-        protected override void Interaction(Player player)
-        {
-            _displayBonuses.Display(Point, 0);
-            _cameraShake?.Invoke();
-        }
-
-        private void Start()
+        private void Awake()
         {
             _material = GetComponent<Renderer>().material;
             _lengthFly = Random.Range(1.0f, 5.0f);
-            _displayBonuses = new DisplayBonuses();
+        }
+
+        public override void Execute()
+        {
+            if (!IsInteractable) { return; }
+            Fly();
+            Flicker();
         }
 
         public void Flicker()
@@ -54,9 +43,5 @@ namespace Assets.MyScripts
                 transform.localPosition.z);
         }
 
-        public bool Equals(GoodBonus other)
-        {
-            return Point == other.Point;
-        }
     }
 }

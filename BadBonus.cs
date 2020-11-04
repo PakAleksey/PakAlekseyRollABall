@@ -5,38 +5,28 @@ using Random = UnityEngine.Random;
 
 namespace Assets.MyScripts
 {
-    public class BadBonus : InteractiveObject, IFly, IRotation, ICloneable
+    public class BadBonus : InteractiveObject, IFly, IRotation
     {
+        public event Action<string, Color> OnCaughtPlayerChange = delegate (string str, Color color) { };
         private float _lengthFlay;
-        private float _speedRotation;
-        private int _damage;
-
-        private event EventHandler<CaughtPlayerEventArgs> _caughtPlayer;
-        
-        public event EventHandler<CaughtPlayerEventArgs> CaughtPlayer
-        {
-            add
-            {
-                _caughtPlayer += value;
-            }
-            remove
-            {
-                _caughtPlayer -= value;
-            }
-        }
+        private float _speedRotation;       
 
         private void Awake()
         {
-            _damage = 10;
             _lengthFlay = Random.Range(1.0f, 5.0f);
             _speedRotation = Random.Range(10.0f, 50.0f);
         }
 
-        protected override void Interaction(Player player)
+        protected override void Interaction()
         {
-            _caughtPlayer?.Invoke(this, new CaughtPlayerEventArgs(_color));
-            var playerHealth = player._playerHealth;
-            playerHealth.Hurt(_damage);
+            OnCaughtPlayerChange.Invoke(gameObject.name, _color);
+        }
+
+        public override void Execute()
+        {
+            if (!IsInteractable) { return; }
+            Fly();
+            Rotation();
         }
 
         public void Fly()
@@ -49,12 +39,6 @@ namespace Assets.MyScripts
         public void Rotation()
         {
             transform.Rotate(Vector3.up * (Time.deltaTime * _speedRotation), Space.World);
-        }
-
-        public object Clone()
-        {
-            var result = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
-            return result;
         }
     }
 }

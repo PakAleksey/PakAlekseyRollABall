@@ -1,59 +1,85 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using Object = UnityEngine.Object;
+using UnityEngine.SceneManagement;
 
 
 namespace Assets.MyScripts
 {
     public class GameController : MonoBehaviour, IDisposable
     {
-        private ListInteractableObject _interactiveObject;
-        public Text _finishGameLabel;
+        public PlayerType PlayerType = PlayerType.Ball;
+        private ListExecuteObject _interactiveObject;
+        private CameraController _cameraController;
+        private InputController _inputController;       
+        private DisplayBonuses _displayBonuses;
         private DisplayEndGame _displayEndGame;
-        private Animation _cameraShake;
+        private int _countBonuses;
+        private Reference _reference;
+
 
         private void Awake()
         {
-            _cameraShake = Object.FindObjectOfType<Camera>().gameObject.GetComponent<Animation>();
-            _interactiveObject = new ListInteractableObject();
-            _displayEndGame = new DisplayEndGame(_finishGameLabel);
-            foreach(var o in _interactiveObject)
+            _interactiveObject = new ListExecuteObject();
+            
+            _reference = new Reference();
+
+            PlayerBase player = null;
+
+            if (PlayerType == PlayerType.Ball)
             {
-                if(o is BadBonus badBonus)
-                {
-                    badBonus.CaughtPlayer += CaughtPlayer;
-                    badBonus.CaughtPlayer += _displayEndGame.GameOver;
-                    
-                    //badBonus.CaughtPlayer += delegate (object sender, CaughtPlayerEventArgs args)
-                    //{ Debug.Log($"Вы проиграли. Вас убил {((GameObject)sender).name} {args.Color} цвета"); };
-
-                    //badBonus.CaughtPlayer += (object sender, CaughtPlayerEventArgs args) =>
-                    //{ Debug.Log($"Вы проиграли. Вас убил {((GameObject)sender).name} {args.Color} цвета"); };
-                }
-                else if(o is GoodBonus goodBonus)
-                {
-                    goodBonus.CameraShake += GoodBonus_CameraShake;
-                }
-             
+                player = _reference.PlayerBall;
             }
+            
+            _cameraController = new CameraController(player.transform, _reference.MainCamera.transform);
+            _interactiveObject.AddExecuteObject(_cameraController);
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                _inputController = new InputController(player);
+                _interactiveObject.AddExecuteObject(_inputController);
+            }
+
+            _displayEndGame = new DisplayEndGame(_reference.EndGame);
+            _displayBonuses = new DisplayBonuses(_reference.Bonuse);
+            foreach (var o in _interactiveObject)
+            {
+                if (o is BadBonus badBonus)
+                {
+                    badBonus.OnCaughtPlayerChange += CaughtPlayer;
+                    badBonus.OnCaughtPlayerChange += _displayEndGame.GameOver;
+                }
+                
+                if (o is GoodBonus goodBonus)
+                {
+                    goodBonus.OnPointChange += AddBonuse;
+                }
+            }
+            
+            _reference.RestartButton.onClick.AddListener(RestartGame);
+            _reference.RestartButton.gameObject.SetActive(false);           
         }
 
-        private void GoodBonus_CameraShake()
+        private void RestartGame()
         {
-            _cameraShake.Play();
-            Debug.Log("Тряска камеры");
+            SceneManager.LoadScene(sceneBuildIndex: 0);
+            Time.timeScale = 1.0f;
         }
 
-        private void CaughtPlayer(object value, CaughtPlayerEventArgs caughtPlayerEventArgs)
+        private void CaughtPlayer(string value, Color args)
         {
+            _reference.RestartButton.gameObject.SetActive(true);
             Time.timeScale = 0.0f;
+        }
+
+        private void AddBonuse(int value)
+        {
+            _countBonuses += value;
+            _displayBonuses.Display(_countBonuses);
         }
 
         private void Update()
         {
-            for (var i = 0; i < _interactiveObject.Count; i++)
+            for (var i = 0; i < _interactiveObject.Length; i++)
             {
                 var interactiveObject = _interactiveObject[i];
 
@@ -61,18 +87,7 @@ namespace Assets.MyScripts
                 {
                     continue;
                 }
-                if (interactiveObject is IFly fly)
-                {
-                    fly.Fly();
-                }
-                if (interactiveObject is IFlicker flicker)
-                {
-                    flicker.Flicker();
-                }
-                if (interactiveObject is IRotation rotation)
-                {
-                    rotation.Rotation();
-                }
+                interactiveObject.Execute();
             }
         }
 
@@ -80,15 +95,16 @@ namespace Assets.MyScripts
         {
             foreach (var o in _interactiveObject)
             {
-                if(o is InteractiveObject interactiveObject)
+                if (o is BadBonus badBonus)
                 {
-                    if(o is BadBonus badBonus)
-                    {
-                        badBonus.CaughtPlayer -= CaughtPlayer;
-                        badBonus.CaughtPlayer -= _displayEndGame.GameOver;
-                    }
-                    Destroy(interactiveObject.gameObject);
-                }               
+                    badBonus.OnCaughtPlayerChange -= CaughtPlayer;
+                    badBonus.OnCaughtPlayerChange -= _displayEndGame.GameOver;
+                }
+
+                if (o is GoodBonus goodBonus)
+                {
+                    goodBonus.OnPointChange -= AddBonuse;
+                }
             }
         }
 

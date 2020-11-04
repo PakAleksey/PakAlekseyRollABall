@@ -10,30 +10,15 @@ namespace Assets.MyScripts
     {
         private Text _finishGameLabel;
 
-        public DisplayEndGame(Text finishGameLabel)
+        public DisplayEndGame(GameObject endGame)
         {
-            _finishGameLabel = finishGameLabel;
+            _finishGameLabel = endGame.GetComponentInChildren<Text>();
             _finishGameLabel.text = String.Empty;
         }
 
-        public void GameOver(object o, CaughtPlayerEventArgs caughtPlayerEventArgs)
+        public void GameOver(string name, Color color)
         {
-            try
-            {
-                _finishGameLabel.text = $"Вы проиграли. Вас убил {((InteractiveObject)o).name} {caughtPlayerEventArgs.Color} цвета";
-            }            
-            catch (InvalidCastException ex)
-            {
-                Debug.Log(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.Message);
-            }
-            finally
-            {
-                Debug.Log(typeof(BadBonus).ToString());
-            }
+            _finishGameLabel.text = $"Вы проиграли. Вас убил {name} {color} цвета";
         }
     }
 }

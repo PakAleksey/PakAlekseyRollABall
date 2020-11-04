@@ -5,6 +5,6 @@ namespace Assets.MyScripts
 {
     public interface IInitialization
     {
-        void Action();
+        void Initialization();
     }
 }

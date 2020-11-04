@@ -1,14 +1,21 @@
-﻿using System;
+﻿using UnityEngine;
 
 
 namespace Assets.MyScripts
 {
-    public sealed class PlayerBall : Player
+    public sealed class PlayerBall : PlayerBase
     {
 
-        private void FixedUpdate() // чтобы использовать PlayerBall, нужно добавлять поле Speed, иначе поле не меняется при баффе\дебаффе
+        private Rigidbody _rigidbody;
+
+        private void Start()
         {
-            Move();
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+
+        public override void Move(float x, float y, float z)
+        {
+            _rigidbody.AddForce(new Vector3(x, y, z) * Speed);
         }
     }
 }

@@ -1,16 +1,25 @@
 ﻿using Random = UnityEngine.Random;
 using UnityEngine;
-using System;
-using System.Collections;
 
 
 namespace Assets.MyScripts
 {
-    public abstract class InteractiveObject : MonoBehaviour, IInteractable, IComparable<InteractiveObject>
+    public abstract class InteractiveObject : MonoBehaviour, IExecute
     {
         protected Color _color;
-        public bool IsInteractable { get; } = true;
-        protected abstract void Interaction(Player player);
+
+        private bool _isInteractable;
+
+        protected bool IsInteractable
+        {
+            get { return _isInteractable; }
+            private set
+            {
+                _isInteractable = value;
+                GetComponent<Renderer>().enabled = _isInteractable;
+                GetComponent<Collider>().enabled = _isInteractable;
+            }
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -18,41 +27,21 @@ namespace Assets.MyScripts
             {
                 return;
             }
-            Interaction(other.GetComponent<Player>());
-            Destroy(gameObject);
+            Interaction();
+            IsInteractable = false;
         }
+
+        protected abstract void Interaction();
+        public abstract void Execute();
 
         private void Start()
         {
-            ((IAction)this).Action();
-            //((IInitialization)this).Action();              
-        }
-
-        protected static void SpeedBonusPlayer(Player player)
-        {
-            player.Speed = 10.0f;
-        }
-
-        void IAction.Action()
-        {
+            IsInteractable = true;
             _color = Random.ColorHSV();
             if (TryGetComponent(out Renderer renderer))
             {
                 renderer.material.color = _color;
             }
-        }
-
-        void IInitialization.Action()
-        {
-            if (TryGetComponent(out Renderer renderer))
-            {
-                renderer.material.color = Color.cyan;
-            }
-        }
-
-        public int CompareTo(InteractiveObject other)
-        {
-            return name.CompareTo(other.name);
         }
 
     }
