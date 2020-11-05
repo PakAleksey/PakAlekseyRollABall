@@ -10,6 +10,7 @@ namespace Assets.MyScripts
         private GameObject _bonuse;
         private GameObject _endGame;
         private GameObject _winGame;
+        private GameObject _checkBonus;
         private Canvas _canvas;
         private Button _restartButton;
 
@@ -67,6 +68,20 @@ namespace Assets.MyScripts
                 }
 
                 return _bonuse;
+            }
+        }
+
+        public GameObject CheckBonus
+        {
+            get
+            {
+                if (_checkBonus == null)
+                {
+                    var gameObject = Resources.Load<GameObject>("UI/CheckBonuse");
+                    _checkBonus = Object.Instantiate(gameObject, Canvas.transform);
+                }
+
+                return _checkBonus;
             }
         }
 

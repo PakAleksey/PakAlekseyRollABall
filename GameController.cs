@@ -15,6 +15,7 @@ namespace Assets.MyScripts
         private DisplayEndGame _displayEndGame;
         private DisplayWin _displayWin;
         private int _countBonuses;
+        private int _countCheckPoints;
         private Reference _reference;
 
 
@@ -41,7 +42,7 @@ namespace Assets.MyScripts
             }
 
             _displayEndGame = new DisplayEndGame(_reference.EndGame);
-            _displayBonuses = new DisplayBonuses(_reference.Bonuse);
+            _displayBonuses = new DisplayBonuses(_reference.Bonuse, _reference.CheckBonus);
             _displayWin = new DisplayWin(_reference.WinGame);
 
             foreach (var o in _interactiveObject)
@@ -56,10 +57,27 @@ namespace Assets.MyScripts
                 {
                     goodBonus.OnPointChange += AddBonuse;
                 }
+                if (o is CheckBonus checkBonus)
+                {
+                    checkBonus.CheckPoint += CheckBonus_CheckPoint;
+                }
             }
-            
+
+            var batton = _reference.RestartButton;
             _reference.RestartButton.onClick.AddListener(RestartGame);
             _reference.RestartButton.gameObject.SetActive(false);           
+        }
+
+        private void CheckBonus_CheckPoint()
+        {
+            _countCheckPoints++;
+            _displayBonuses.Display(_countBonuses, _countCheckPoints);
+            if (_countCheckPoints >= 5)
+            {
+                _displayWin.GameWin();
+                _reference.RestartButton.gameObject.SetActive(true);
+                Time.timeScale = 0.0f;
+            }
         }
 
         private void RestartGame()
@@ -77,13 +95,7 @@ namespace Assets.MyScripts
         private void AddBonuse(int value)
         {
             _countBonuses += value;
-            _displayBonuses.Display(_countBonuses);
-            if (_countBonuses >= 5)
-            {
-                _displayWin.GameWin();
-                _reference.RestartButton.gameObject.SetActive(true);
-                Time.timeScale = 0.0f;
-            }
+            _displayBonuses.Display(_countBonuses, _countCheckPoints);
         }
 
         private void Update()
