@@ -13,6 +13,7 @@ namespace Assets.MyScripts
         private InputController _inputController;       
         private DisplayBonuses _displayBonuses;
         private DisplayEndGame _displayEndGame;
+        private DisplayWin _displayWin;
         private int _countBonuses;
         private Reference _reference;
 
@@ -41,6 +42,8 @@ namespace Assets.MyScripts
 
             _displayEndGame = new DisplayEndGame(_reference.EndGame);
             _displayBonuses = new DisplayBonuses(_reference.Bonuse);
+            _displayWin = new DisplayWin(_reference.WinGame);
+
             foreach (var o in _interactiveObject)
             {
                 if (o is BadBonus badBonus)
@@ -75,6 +78,12 @@ namespace Assets.MyScripts
         {
             _countBonuses += value;
             _displayBonuses.Display(_countBonuses);
+            if (_countBonuses >= 5)
+            {
+                _displayWin.GameWin();
+                _reference.RestartButton.gameObject.SetActive(true);
+                Time.timeScale = 0.0f;
+            }
         }
 
         private void Update()
