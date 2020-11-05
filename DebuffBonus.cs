@@ -1,29 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
 
 
 namespace Assets.MyScripts
 {
     public sealed class DebuffBonus : BadBonus
-    {        
-        //private float _lowSpeed = 0.5f;
-        //private float _BaseSpeed = 3.0f;
-        
-        //private Timer _timer;
-        //private Player _player;
+    {
+        public event Action<bool> DeBuffSpeed = (bool b) => { };
 
-        //protected override void Interaction(Player player)
-        //{
-        //    _player = player;
-        //    _timer = player.gameObject.GetComponent<Timer>();
-        //    _timer.IsStart = true;
-        //    player.Speed = _lowSpeed;
-        //    _timer.StopTimer += EndDeBuff;
-        //}
-
-        //public void EndDeBuff()
-        //{
-        //    _player.Speed = _BaseSpeed;
-        //    _timer.StopTimer -= EndDeBuff;
-        //}
+        protected override void Interaction()
+        {
+            bool IsGood = false;
+            DeBuffSpeed.Invoke(IsGood);
+        }
     }
 }

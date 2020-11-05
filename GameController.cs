@@ -8,6 +8,7 @@ namespace Assets.MyScripts
     public class GameController : MonoBehaviour, IDisposable
     {
         public PlayerType PlayerType = PlayerType.Ball;
+        private PlayerBase _player;
         private ListExecuteObject _interactiveObject;
         private CameraController _cameraController;
         private InputController _inputController;       
@@ -17,6 +18,10 @@ namespace Assets.MyScripts
         private int _countBonuses;
         private int _countCheckPoints;
         private Reference _reference;
+        private int _highSpeed = 10;
+        private int _BaseSpeed = 3;
+        private int _lowSpeed = 1;
+        private Timer _timer;
 
 
         private void Awake()
@@ -25,19 +30,19 @@ namespace Assets.MyScripts
             
             _reference = new Reference();
 
-            PlayerBase player = null;
+            _player = null;
 
             if (PlayerType == PlayerType.Ball)
             {
-                player = _reference.PlayerBall;
+                _player = _reference.PlayerBall;
             }
             
-            _cameraController = new CameraController(player.transform, _reference.MainCamera.transform);
+            _cameraController = new CameraController(_player.transform, _reference.MainCamera.transform);
             _interactiveObject.AddExecuteObject(_cameraController);
 
             if (Application.platform == RuntimePlatform.WindowsEditor)
             {
-                _inputController = new InputController(player);
+                _inputController = new InputController(_player);
                 _interactiveObject.AddExecuteObject(_inputController);
             }
 
@@ -52,7 +57,10 @@ namespace Assets.MyScripts
                     badBonus.OnCaughtPlayerChange += CaughtPlayer;
                     badBonus.OnCaughtPlayerChange += _displayEndGame.GameOver;
                 }
-                
+                if (o is DebuffBonus deBuffBonus)
+                {
+                    deBuffBonus.DeBuffSpeed += BuffOrDebuffBonus;
+                }
                 if (o is GoodBonus goodBonus)
                 {
                     goodBonus.OnPointChange += AddBonuse;
@@ -61,11 +69,35 @@ namespace Assets.MyScripts
                 {
                     checkBonus.CheckPoint += CheckBonus_CheckPoint;
                 }
+                if (o is BuffBonus buffBonus)
+                {
+                    buffBonus.BuffSpeed += BuffOrDebuffBonus;
+                }
             }
 
-            var batton = _reference.RestartButton;
             _reference.RestartButton.onClick.AddListener(RestartGame);
-            _reference.RestartButton.gameObject.SetActive(false);           
+            _reference.RestartButton.gameObject.SetActive(false);
+            _timer = new Timer();
+        }
+
+        private void BuffOrDebuffBonus(bool IsGood)
+        {
+            _timer.IsStart = true;
+            if (IsGood)
+            {
+                _player.Speed = _highSpeed;
+            }
+            else
+            {
+                _player.Speed = _lowSpeed;
+            }           
+            _timer.StopTimer += EndBuffOrDebuff;
+        }
+
+        public void EndBuffOrDebuff()
+        {
+            _player.Speed = _BaseSpeed;
+            _timer.StopTimer -= EndBuffOrDebuff;
         }
 
         private void CheckBonus_CheckPoint()
@@ -110,6 +142,7 @@ namespace Assets.MyScripts
                 }
                 interactiveObject.Execute();
             }
+            _timer.TimerGo();
         }
 
         public void Dispose()
