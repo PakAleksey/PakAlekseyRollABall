@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 
 namespace Assets.MyScripts.Test
@@ -20,6 +21,10 @@ namespace Assets.MyScripts.Test
             s.Run();
             s.Remove(o1.Do);
             s.Run();
+
+            //var list = new List<int>();
+            //4.IsEven();
+            //4.AddTo(list);
 
             //var example = FindObjectOfType<PredicateAndFuncDelegatesExample>();
             //example.Predicate = collision => collision.gameObject.CompareTag("Player");

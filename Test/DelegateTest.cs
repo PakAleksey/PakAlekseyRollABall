@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.Scripting.APIUpdating;
 
 namespace Assets.MyScripts.Test
@@ -13,7 +14,7 @@ namespace Assets.MyScripts.Test
         private Predicate<int> _predicate;
 
         public DelegateTest()
-        {
+        {                 
             _action = Action;
             _func = Func;
             _predicate = Predicate;

@@ -8,7 +8,7 @@ namespace Assets.MyScripts.Test
         [SerializeField] private Button _button;
 
         private void Start()
-        {
+        {            
             var root = FindObjectOfType<VerticalLayoutGroup>().transform;
             for (int i = 0; i < 100; i++)
             {

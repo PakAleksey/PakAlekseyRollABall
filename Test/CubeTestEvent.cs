@@ -17,7 +17,6 @@ namespace Assets.MyScripts.Test
             result.name = (nameof(CubeTestEvent));
             result.gameObject.GetComponent<BoxCollider>().isTrigger = true;
             result.gameObject.AddComponent<Rigidbody>().useGravity = false;
-
             return result;
         }
 
