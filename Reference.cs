@@ -9,6 +9,8 @@ namespace Assets.MyScripts
         private Camera _mainCamera;
         private GameObject _bonuse;
         private GameObject _endGame;
+        private GameObject _winGame;
+        private GameObject _checkBonus;
         private Canvas _canvas;
         private Button _restartButton;
 
@@ -50,6 +52,7 @@ namespace Assets.MyScripts
                 {
                     _canvas = Object.FindObjectOfType<Canvas>();
                 }
+
                 return _canvas;
             }
         }
@@ -65,6 +68,34 @@ namespace Assets.MyScripts
                 }
 
                 return _bonuse;
+            }
+        }
+
+        public GameObject CheckBonus
+        {
+            get
+            {
+                if (_checkBonus == null)
+                {
+                    var gameObject = Resources.Load<GameObject>("UI/CheckBonuse");
+                    _checkBonus = Object.Instantiate(gameObject, Canvas.transform);
+                }
+
+                return _checkBonus;
+            }
+        }
+
+        public GameObject WinGame
+        {
+            get
+            {
+                if (_winGame == null)
+                {
+                    var gameObject = Resources.Load<GameObject>("UI/WinGame");
+                    _winGame = Object.Instantiate(gameObject, Canvas.transform);
+                }
+
+                return _winGame;
             }
         }
 

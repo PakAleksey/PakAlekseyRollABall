@@ -9,7 +9,7 @@ namespace Assets.MyScripts
     {
         public int Point;
         public event Action<int> OnPointChange = delegate (int i) { };
-        private Material _material;
+        protected Material _material;
         private float _lengthFly;
 
         protected override void Interaction()

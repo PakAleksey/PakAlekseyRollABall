@@ -4,16 +4,11 @@ using UnityEngine;
 
 namespace Assets.MyScripts
 {
-    public sealed class Timer : MonoBehaviour
+    public sealed class Timer
     {
         public float TimeStart;
         public bool IsStart;
         public event Action StopTimer = delegate {};
-
-        private void Update()
-        {            
-            TimerGo();
-        }
 
         public void TimerGo()
         {
