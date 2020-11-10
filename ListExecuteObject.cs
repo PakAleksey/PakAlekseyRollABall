@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace Assets.MyScripts
 {
-    class ListExecuteObject : IEnumerator, IEnumerable
+    public sealed class ListExecuteObject : IEnumerator, IEnumerable
     {
         private IExecute[] _interactiveObjects;
         private int _index = -1;

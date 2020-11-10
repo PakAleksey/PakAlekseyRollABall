@@ -25,7 +25,7 @@ namespace Assets.MyScripts
 
 
         private void Awake()
-        {
+        {      
             _interactiveObject = new ListExecuteObject();
             
             _reference = new Reference();

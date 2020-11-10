@@ -10,8 +10,7 @@ namespace Assets.MyScripts.Test
         private Dictionary<string, Action> _actions;
 
         public void EnumMethod(string value)
-        {
-
+        {            
             _actions = new Dictionary<string, Action>
             {
                 ["Move"] = Move,

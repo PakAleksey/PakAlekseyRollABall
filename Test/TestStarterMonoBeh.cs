@@ -9,18 +9,72 @@ namespace Assets.MyScripts.Test
         private DelegateTest _delegateTest;
         private SwichChangeTo_Dictionary _swichChange;
         private EventTest _eventTest;
+        private List<int> listInt = new List<int>() {1,3,4,3,3,4};
+
+        private void CountUnicElements(List<int> list)
+        {
+            List<int> unicList = new List<int>();
+            int count = 0;
+            for (int i = 0; i < list.Count; i++)
+            {                
+                if (!unicList.Contains(list[i]))
+                {
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        if (list[i] == list[j])
+                        {
+                            count++;
+                        }
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+                if (!unicList.Contains(list[i]))
+                {
+                    unicList.Add(list[i]);
+                }
+                Debug.Log($"{list[i]} - {count}");
+                count = 0;
+            }
+        }
+
+        private void CountUnicElementsGeneric<T>(List<T> list)
+        {
+
+        }
+
 
         private void Start()
         {
-            DelegatesObserver.Source s = new DelegatesObserver.Source();
-            DelegatesObserver.Observer1 o1 = new DelegatesObserver.Observer1();
-            DelegatesObserver.Observer2 o2 = new DelegatesObserver.Observer2();
-            DelegatesObserver.MyDelegate d1 = new DelegatesObserver.MyDelegate(o1.Do);
-            s.Add(d1);
-            s.Add(o2.Do);
-            s.Run();
-            s.Remove(o1.Do);
-            s.Run();
+            CountUnicElements(listInt);
+
+            Debug.Log("jsfjs".CountChar());
+
+            gameObject.GetOrAddComponent<Rigidbody>();
+
+            //Debug.Log("false".TryBool());
+
+            //var list = new List<int>();
+            //4.AddTo(list);
+
+
+            //ExamplePredicate examplePredicate = new ExamplePredicate();
+            //examplePredicate.Main();
+
+            //UnicCollection unicCollection = new UnicCollection();
+            //unicCollection.TestUnicCollection();
+
+            //DelegatesObserver.Source s = new DelegatesObserver.Source();
+            //DelegatesObserver.Observer1 o1 = new DelegatesObserver.Observer1();
+            //DelegatesObserver.Observer2 o2 = new DelegatesObserver.Observer2();
+            //DelegatesObserver.MyDelegate d1 = new DelegatesObserver.MyDelegate(o1.Do);
+            //s.Add(d1);
+            //s.Add(o2.Do);
+            //s.Run();
+            //s.Remove(o1.Do);
+            //s.Run();
 
             //var list = new List<int>();
             //4.IsEven();
@@ -57,5 +111,7 @@ namespace Assets.MyScripts.Test
         {
             Debug.Log($"Сработал подписанный метод");
         }
+
+
     }
 }
