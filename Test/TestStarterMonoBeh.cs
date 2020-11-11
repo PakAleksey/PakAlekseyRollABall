@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace Assets.MyScripts.Test
 {
@@ -40,19 +40,45 @@ namespace Assets.MyScripts.Test
             }
         }
 
-        private void CountUnicElementsGeneric<T>(List<T> list)
+        private void CountUnicElementsGeneric<T>(List<T> list) // только у Т должен быть перегружен оператор ==
         {
-
+            var unicList = new List<T>();
+            int count = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (!unicList.Contains(list[i]))
+                {
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        if ((object)list[i] == (object)list[j])
+                        {
+                            count++;
+                        }
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+                if (!unicList.Contains(list[i]))
+                {
+                    unicList.Add(list[i]);
+                }
+                Debug.Log($"{list[i]} - {count}");
+                count = 0;
+            }
         }
 
 
         private void Start()
         {
-            CountUnicElements(listInt);
+            CountUnicElementsGeneric(listInt);
 
-            Debug.Log("jsfjs".CountChar());
+            //CountUnicElements(listInt);
 
-            gameObject.GetOrAddComponent<Rigidbody>();
+            //Debug.Log("jsfjs".CountChar());
+
+            //gameObject.GetOrAddComponent<Rigidbody>();
 
             //Debug.Log("false".TryBool());
 
