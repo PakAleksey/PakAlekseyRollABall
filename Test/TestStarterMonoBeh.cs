@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Assets.MyScripts.Test
 {
@@ -40,7 +41,7 @@ namespace Assets.MyScripts.Test
             }
         }
 
-        private void CountUnicElementsGeneric<T>(List<T> list) // только у Т должен быть перегружен оператор ==
+        private void CountUnicElementsGeneric<T>(List<T> list) where T : IComparable
         {
             var unicList = new List<T>();
             int count = 0;
@@ -50,7 +51,7 @@ namespace Assets.MyScripts.Test
                 {
                     for (int j = 0; j < list.Count; j++)
                     {
-                        if ((object)list[i] == (object)list[j])
+                        if (list[i].CompareTo(list[j]) == 0)
                         {
                             count++;
                         }
@@ -69,10 +70,43 @@ namespace Assets.MyScripts.Test
             }
         }
 
+        private void CountUnicElementsGenericLinq<T>(List<T> list) where T : IComparable
+        {
+            var unicList = list.Distinct().ToList();
+            for (int i = 0; i < unicList.Count; i++)
+            {
+                var monoList = list.Where(el => el.CompareTo(unicList[i]) == 0).ToList();
+                Debug.Log($"{unicList[i]} - {monoList.Count}");
+            }
+        }
+
+        private void Task4Lesson5()
+        {
+            Dictionary<string, int> dict = new Dictionary<string, int>()
+            {
+                {"four", 4},
+                {"two", 2},
+                {"three", 3},
+                {"one", 1},
+            };                        
+            var d = dict.OrderBy(delegate (KeyValuePair<string, int> pair) { return pair.Value; });
+            var d2 = dict.OrderBy(pair => pair.Value);
+            var d3 = dict.OrderBy(ValueSort);
+            foreach (var pair in d)
+            {
+                Debug.Log($"{pair.Key} - {pair.Value}");
+            }
+
+        }
+
+        private int ValueSort(KeyValuePair<string, int> pair)
+        {
+            return pair.Value;
+        }
 
         private void Start()
-        {
-            CountUnicElementsGeneric(listInt);
+        {           
+            CountUnicElementsGenericLinq(listInt);
 
             //CountUnicElements(listInt);
 
