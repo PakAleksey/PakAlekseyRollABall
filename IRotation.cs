@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace Assets.MyScripts
+﻿namespace Assets.MyScripts
 {
     public interface IRotation
     {
