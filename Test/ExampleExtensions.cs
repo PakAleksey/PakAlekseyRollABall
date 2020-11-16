@@ -26,6 +26,15 @@ namespace Assets.MyScripts.Test
             return Boolean.TryParse(self, out var res) && (res || !res);
         }
 
+        public static float TrySingle(this string self)
+        {
+            if (Single.TryParse(self, out var res))
+            {
+                return res;
+            }
+            return 0;
+        }
+
         public static bool IsOneOf<T>(this T self, params T[] elem)
         {
             return elem.Contains(self);

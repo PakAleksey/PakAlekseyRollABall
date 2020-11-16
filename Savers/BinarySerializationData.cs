@@ -22,7 +22,7 @@ namespace Assets.MyScripts.Savers
             };
             if (!typeof(T).IsSerializable)
             {
-                throw new InvalidOperationException("fsgdfjtfytjtrhthrtht");
+                throw new InvalidOperationException("NotSerialized");
             }
             using (var fs = new FileStream(path, FileMode.Create))
             {
