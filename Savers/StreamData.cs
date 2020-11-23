@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Assets.MyScripts.Test;
 
 
@@ -35,6 +36,16 @@ namespace Assets.MyScripts.Savers
                 }
             }
             return result;
+        }
+
+        public void SaveList(List<SavedData> SaveAll, string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<SavedData> LoadList(string path = null)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -105,8 +105,9 @@ namespace Assets.MyScripts.Test
         }
 
         private void Start()
-        {           
-            CountUnicElementsGenericLinq(listInt);
+        {
+            Debug.Log(gameObject.name);
+            //CountUnicElementsGenericLinq(listInt);
 
             //CountUnicElements(listInt);
 

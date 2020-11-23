@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -39,6 +40,16 @@ namespace Assets.MyScripts.Savers
                 result = (T)_formatter.Deserialize(fs);
             }
             return result;
+        }
+
+        public void SaveList(List<T> SaveAll, string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<T> LoadList(string path = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,13 +1,19 @@
 ﻿using System;
 using UnityEngine;
+using System.Runtime.Serialization;
 
 
 namespace Assets.MyScripts
 {
+    [Serializable]
+    [DataContract]
     public sealed class SavedData
     {
+        [DataMember]
         public string Name;
+        [DataMember]
         public Vector3Serializable Position;
+        [DataMember]
         public bool IsEnabled;
 
         public override string ToString() => $"Name {Name} Position {Position} IsVisible {IsEnabled}";

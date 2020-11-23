@@ -22,10 +22,11 @@ namespace Assets.MyScripts
         private int _BaseSpeed = 3;
         private int _lowSpeed = 1;
         private Timer _timer;
+        private SaveController _saveController;
 
 
         private void Awake()
-        {      
+        {
             _interactiveObject = new ListExecuteObject();
             
             _reference = new Reference();
@@ -35,6 +36,7 @@ namespace Assets.MyScripts
             if (PlayerType == PlayerType.Ball)
             {
                 _player = _reference.PlayerBall;
+                _saveController = new SaveController(_player);
             }
             
             _cameraController = new CameraController(_player.transform, _reference.MainCamera.transform);
@@ -42,7 +44,7 @@ namespace Assets.MyScripts
 
             if (Application.platform == RuntimePlatform.WindowsEditor)
             {
-                _inputController = new InputController(_player);
+                _inputController = new InputController(_player, _saveController);
                 _interactiveObject.AddExecuteObject(_inputController);
             }
 
@@ -56,28 +58,33 @@ namespace Assets.MyScripts
                 {
                     badBonus.OnCaughtPlayerChange += CaughtPlayer;
                     badBonus.OnCaughtPlayerChange += _displayEndGame.GameOver;
+                    _saveController._saveDataList.Add(badBonus);
                 }
                 if (o is DebuffBonus deBuffBonus)
                 {
                     deBuffBonus.DeBuffSpeed += BuffOrDebuffBonus;
+                    _saveController._saveDataList.Add(deBuffBonus);
                 }
                 if (o is GoodBonus goodBonus)
                 {
                     goodBonus.OnPointChange += AddBonuse;
+                    _saveController._saveDataList.Add(goodBonus);
                 }
                 if (o is CheckBonus checkBonus)
                 {
                     checkBonus.CheckPoint += CheckBonus_CheckPoint;
+                    _saveController._saveDataList.Add(checkBonus);
                 }
                 if (o is BuffBonus buffBonus)
                 {
                     buffBonus.BuffSpeed += BuffOrDebuffBonus;
+                    _saveController._saveDataList.Add(buffBonus);
                 }
             }
 
             _reference.RestartButton.onClick.AddListener(RestartGame);
             _reference.RestartButton.gameObject.SetActive(false);
-            _timer = new Timer();
+            _timer = new Timer();          
         }
 
         private void BuffOrDebuffBonus(bool IsGood)

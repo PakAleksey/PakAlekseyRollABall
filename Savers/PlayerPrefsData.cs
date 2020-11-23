@@ -1,4 +1,5 @@
 ﻿using Assets.MyScripts.Test;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -57,6 +58,16 @@ namespace Assets.MyScripts.Savers
         public void Clear()
         {
             PlayerPrefs.DeleteAll();
+        }
+
+        public void SaveList(List<SavedData> SaveAll, string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<SavedData> LoadList(string path = null)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
