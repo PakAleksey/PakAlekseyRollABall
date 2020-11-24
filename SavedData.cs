@@ -5,6 +5,14 @@ using System.Runtime.Serialization;
 
 namespace Assets.MyScripts
 {
+    [DataContract]
+    public enum TypeObject
+    {
+        Player = 1,
+        GoodBonus = 2,
+        BadBonus = 3
+    }
+
     [Serializable]
     [DataContract]
     public sealed class SavedData
@@ -15,8 +23,10 @@ namespace Assets.MyScripts
         public Vector3Serializable Position;
         [DataMember]
         public bool IsEnabled;
+        [DataMember]
+        public TypeObject TypeObject;
 
-        public override string ToString() => $"Name {Name} Position {Position} IsVisible {IsEnabled}";
+        public override string ToString() => $"Name {Name} Position {Position} IsVisible {IsEnabled} TypeObgect {TypeObject}";
     }
 
     [Serializable]

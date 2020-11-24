@@ -24,7 +24,7 @@ namespace Assets.MyScripts.Savers
 
         public void SaveList(List<T> SaveAll, string path)
         {
-            var jsonSerializer = new DataContractJsonSerializer(typeof(T));
+            var jsonSerializer = new DataContractJsonSerializer(typeof(List<T>));
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 jsonSerializer.WriteObject(fileStream, SaveAll);
@@ -33,7 +33,7 @@ namespace Assets.MyScripts.Savers
 
         public List<T> LoadList(string path = null)
         {
-            var jsonSerializer = new DataContractJsonSerializer(typeof(T));
+            var jsonSerializer = new DataContractJsonSerializer(typeof(List<T>));
             using (var fileStream = new FileStream(path, FileMode.Open))
             {
                 var newList = jsonSerializer.ReadObject(fileStream) as List<T>;

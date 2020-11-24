@@ -13,7 +13,7 @@ namespace Assets.MyScripts
         public bool IsInteractable
         {
             get { return _isInteractable; }
-            private set
+            set
             {
                 _isInteractable = value;
                 GetComponent<Renderer>().enabled = _isInteractable;

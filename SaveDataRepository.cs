@@ -71,7 +71,8 @@ namespace Assets.MyScripts
                     {
                         Position = goodBonus.transform.position,
                         Name = goodBonus.name,
-                        IsEnabled = goodBonus.IsInteractable
+                        IsEnabled = goodBonus.IsInteractable,
+                        TypeObject = TypeObject.GoodBonus
                     };
                     saveAllObjects.Add(saveGoodBonus);
                 }
@@ -81,7 +82,8 @@ namespace Assets.MyScripts
                     {
                         Position = badBonus.transform.position,
                         Name = badBonus.name,
-                        IsEnabled = badBonus.IsInteractable
+                        IsEnabled = badBonus.IsInteractable,
+                        TypeObject = TypeObject.BadBonus
                     };
                     saveAllObjects.Add(saveBadBonus);
                 }
@@ -91,7 +93,8 @@ namespace Assets.MyScripts
                     {
                         Position = player.transform.position,
                         Name = "PakAleksey",
-                        IsEnabled = true
+                        IsEnabled = true,
+                        TypeObject = TypeObject.Player
                     };
                     saveAllObjects.Add(savePlayer);
                 }
@@ -100,58 +103,44 @@ namespace Assets.MyScripts
         }
 
         public void LoadAll(List<object> listObjects)
-        {
-            //var file = Path.Combine(_path, _fileName);
-            //if (!File.Exists(file))
-            //{
-            //    return;
-            //}
-            //var ListSaveData = _data.LoadList(file);
-            //for(int i = 0; i < allLoadObjects.Count; i++)
-            //{
-            //    var 
-            //    if(listObjects[i] is GoodBonus good && )
-            //}
-            
-            //foreach(var item in listObjects)
-            //{
-            //    if (item is GoodBonus goodBonus)
-            //    {
-            //        goodBonus.transform.position = 
-            //        var saveGoodBonus = new SavedData()
-            //        {
-            //            Position = goodBonus.transform.position,
-            //            Name = goodBonus.name,
-            //            IsEnabled = goodBonus.IsInteractable
-            //        };
-            //        saveAllObjects.Add(saveGoodBonus);
-            //    }
-            //    if (item is BadBonus badBonus)
-            //    {
-            //        var saveBadBonus = new SavedData()
-            //        {
-            //            Position = badBonus.transform.position,
-            //            Name = badBonus.name,
-            //            IsEnabled = badBonus.IsInteractable
-            //        };
-            //        saveAllObjects.Add(saveBadBonus);
-            //    }
-            //    if (item is PlayerBase player)
-            //    {
-            //        var savePlayer = new SavedData()
-            //        {
-            //            Position = player.transform.position,
-            //            Name = "PakAleksey",
-            //            IsEnabled = true
-            //        };
-            //        saveAllObjects.Add(savePlayer);
-            //    }
-            //}
-            //player.transform.position = newPlayer.Position;
-            //player.name = newPlayer.Name;
-            //player.gameObject.SetActive(newPlayer.IsEnabled);
+        {           
+            var file = Path.Combine(_path, _fileName);
+            if (!File.Exists(file))
+            {
+                Debug.Log($"File not found - {file}");
+                return;
+            }
 
-            //Debug.Log(newPlayer);
+            var listSaveData = _data.LoadList(file);
+
+            foreach (var item in listSaveData)
+            {
+                Debug.Log(item);
+            }
+
+
+            for (int i = 0; i < listSaveData.Count; i++)
+            {
+                SavedData item = listSaveData[i];
+                if (listObjects[i] is PlayerBall playerBase && item.TypeObject == TypeObject.Player)
+                {
+                    playerBase.transform.position = item.Position;
+                    playerBase.name = item.Name;
+                    item.IsEnabled = true;
+                }
+                if (listObjects[i] is GoodBonus goodBonus && item.TypeObject == TypeObject.GoodBonus)
+                {
+                    goodBonus.transform.position = item.Position;
+                    goodBonus.name = item.Name;
+                    goodBonus.IsInteractable = item.IsEnabled;
+                }
+                if (listObjects[i] is BadBonus badBonus && item.TypeObject == TypeObject.BadBonus)
+                {
+                    badBonus.transform.position = item.Position;
+                    badBonus.name = item.Name;
+                    badBonus.IsInteractable = item.IsEnabled;
+                }
+            }
         }
     }
 }
