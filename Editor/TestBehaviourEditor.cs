@@ -11,8 +11,8 @@ namespace Assets.MyScripts
 
 		public override void OnInspectorGUI()
 		{
-			// DrawDefaultInspector();
-			TestBehaviour testTarget = (TestBehaviour)target;
+            DrawDefaultInspector();
+            TestBehaviour testTarget = (TestBehaviour)target;
 
 			testTarget.count = EditorGUILayout.IntSlider(testTarget.count, 10, 50);
 			testTarget.offset = EditorGUILayout.IntSlider(testTarget.offset, 1, 5);

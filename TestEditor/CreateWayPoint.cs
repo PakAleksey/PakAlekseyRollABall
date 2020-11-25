@@ -2,7 +2,7 @@
 using System;
 
 
-namespace Assets.MyScripts
+namespace Assets.MyScripts 
 {
     public sealed class CreateWayPoint : MonoBehaviour
     {

@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 
+
 namespace Assets.MyScripts
 {
 	public class MenuItems
@@ -7,7 +8,7 @@ namespace Assets.MyScripts
 		[MenuItem("Geekbrains/Пункт меню №0 ")]
 		private static void MenuOption()
 		{
-			EditorWindow.GetWindow(typeof(MyWindow), false, "Geekbrains");
+			EditorWindow.GetWindow(typeof(MyWindow), true, "Geekbrains");
 		}
 
 		[MenuItem("Geekbrains/Пункт меню №1 %#a")]

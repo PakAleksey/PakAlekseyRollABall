@@ -31,7 +31,6 @@ namespace Assets.MyScripts
 
         private void Update()
         {
-
             GetComponent<Renderer>().sharedMaterial.color = UnityEngine.Random.ColorHSV();
         }
 
