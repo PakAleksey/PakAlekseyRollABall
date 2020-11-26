@@ -11,9 +11,10 @@ namespace Assets.MyScripts
 			EditorWindow.GetWindow(typeof(MyWindow), true, "Geekbrains");
 		}
 
-		[MenuItem("Geekbrains/Пункт меню №1 %#a")]
+		[MenuItem("Geekbrains/PakAlekseyWindow %#a")]
 		private static void NewMenuOption()
 		{
+			EditorWindow.GetWindow(typeof(MyWindowLesson7HW), true, "PakAlekseyWindow");
 		}
 
 		[MenuItem("Geekbrains/Пункт меню №2 %g")]
